@@ -41,8 +41,40 @@ public class XMLParse {
 	      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	      fileDialog = new JFileChooser();
 	      fileDialog.setFileFilter(new FileNameExtensionFilter("XML file (*.xml", "xml"));
-		  
-		  table = new JTable();
+		  String data[][] = {{"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"}, /*
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
+		   {"001","vinod","Bihar","India","Biology","65","First"},
+		   {"002","Raju","ABC","Kanada","Geography","58","second"},
+		   {"003","Aman","Delhi","India","computer","98","Dictontion"},*/
+		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"}};
+		  String col[] = {"Roll","Name","State","country","Math","Marks","Grade"};
+		  table = new JTable(data,col);
 		  table.setEnabled(false);
 		  //JTableHeader header = table.getTableHeader();
 		  //header.setBackground(Color.yellow);
