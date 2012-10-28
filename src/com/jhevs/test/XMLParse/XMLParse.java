@@ -114,8 +114,9 @@ public class XMLParse {
 	@SuppressWarnings("deprecation")
 	private void stopLoading() 
 	{
-		flThread.stop();
-		setLoadVisibility(true);
+		//flThread.stop();
+		flThread.stopped=true;
+		//setLoadVisibility(true);
 	}
 	
 	private void openDialog()
