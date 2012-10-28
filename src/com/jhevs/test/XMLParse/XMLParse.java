@@ -1,7 +1,6 @@
 package com.jhevs.test.XMLParse;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
@@ -14,67 +13,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XMLParse {
+	private final static String btnLoad = "Load XML";
+	private final static String btnStop = "Stop loading";
+	private final static String wndTitle = "XML Parse";
+	private final static String filterText = "XML file (*.xml)";
+	private final static String filterExt = "xml";
 
 	private JFrame frame;
 	private JFileChooser fileDialog;
 	private JButton buttonLoad;
 	private JButton buttonCancel;
-	private JTable table;
+	JTable table;							// таблица с данными из файла
 	private JScrollPane pane;
-	private FileLoadThread flThread;
-	public List <String> cols;
+	private FileLoadThread flThread;		// ссылка на поток разбора xml файла
+	List <String> cols;						// список столбцов в таблице
 	
-	public JTable getTable() {
-		return table;
-	}
 
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		XMLParse a = new XMLParse();
+		new XMLParse();
 	}
 	
 	public XMLParse(){
-		  frame = new JFrame("XML Parse");
+		  frame = new JFrame(wndTitle);
 	      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	      fileDialog = new JFileChooser();
-	      fileDialog.setFileFilter(new FileNameExtensionFilter("XML file (*.xml", "xml"));
-		  String data[][] = {{"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"}, /*
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"},
-		   {"001","vinod","Bihar","India","Biology","65","First"},
-		   {"002","Raju","ABC","Kanada","Geography","58","second"},
-		   {"003","Aman","Delhi","India","computer","98","Dictontion"},*/
-		   {"004","Ranjan","Bangloor","India","chemestry","90","Dictontion"}};
-		  String col[] = {"Roll","Name","State","country","Math","Marks","Grade"};
-		  table = new JTable(data,col);
+	      fileDialog.setFileFilter(new FileNameExtensionFilter(filterText, filterExt));
+		  
+		  table = new JTable();
 		  table.setEnabled(false);
 		  //JTableHeader header = table.getTableHeader();
 		  //header.setBackground(Color.yellow);
@@ -82,7 +48,7 @@ public class XMLParse {
 		  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		  pane.setVisible(false);
 		  
-		  buttonLoad = new JButton("Load XML");
+		  buttonLoad = new JButton(btnLoad);
 		  buttonLoad.addActionListener(new ActionListener()
 	      {
 	            public void actionPerformed(ActionEvent event)
@@ -90,7 +56,7 @@ public class XMLParse {
 	                openDialog();
 	            }
 	      });
-		  buttonCancel = new JButton("Stop loading");
+		  buttonCancel = new JButton(btnStop);
 		  buttonCancel.addActionListener(new ActionListener()
 	      {
 	            public void actionPerformed(ActionEvent event)
@@ -111,26 +77,20 @@ public class XMLParse {
 		  frame.setVisible(true);
 		  }
 
-	@SuppressWarnings("deprecation")
 	private void stopLoading() 
 	{
-		flThread.stop();
-		setLoadVisibility(true);
+		//flThread.stop(); 				возможно некорректное завершение... в данной программе будет работать нормально
+		//setLoadVisibility(true);
+		flThread.stop = true;
 	}
 	
 	private void openDialog()
     {
         int openChoice = fileDialog.showOpenDialog(frame);
         
-        //display choice using tracker 
-        //logChoice(openChoice, "Open Dialog");
-        
         if (openChoice == JFileChooser.APPROVE_OPTION)
         {
-            //Put open file code in here
             File openFile = fileDialog.getSelectedFile();
-            //tracker.append("\nThe file selected is " + openFile.getName());
-            //tracker.append("\nThe file's path is " + openFile.getPath());
             pane.setVisible(true);
             TableColumn aColumn = new TableColumn();
             table.addColumn(aColumn);
@@ -138,13 +98,13 @@ public class XMLParse {
             table.setModel(model);
             cols = new ArrayList<String>();
             
-            flThread = new FileLoadThread(this, openFile, table);
+            flThread = new FileLoadThread(this, openFile);
             flThread.start();
             setLoadVisibility(false);
         }
     }
     
-	public void setLoadVisibility(boolean visible) {
+	void setLoadVisibility(boolean visible) {
 		buttonLoad.setVisible(visible);
         buttonCancel.setVisible(!visible);
 	}
